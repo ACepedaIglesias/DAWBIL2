@@ -1,0 +1,46 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Cargar el CSV  ';'
+df = pd.read_csv("ActuacionesBomberos_2025.csv", encoding="utf-16", sep=";")
+
+# Gráfico de plot sencillo 
+# Mostrar número de fuegos en los primeros 4 distritos
+plt.plot(df["DISTRITO"].head(4), df["FUEGOS"].head(4), marker="o")
+plt.xlabel("Distrito")
+plt.ylabel("Número de fuegos")
+plt.title("Fuegos por Distrito (primeros 4)")
+plt.grid(True)
+plt.show()
+
+
+# Gráfico de puntos individuales 
+# Mostrar número de Salvamentos por Distrito (4 primeros)
+plt.scatter(df["DISTRITO"].head(4), df["SALVAMENTOS Y RESCATES"].head(4), color="orange")
+plt.xlabel("Distrito")
+plt.ylabel("Salvamentos y Rescates")
+plt.title("Salvamentos y Rescates por Distrito (primeros 4)")
+plt.grid(True)
+plt.show()
+
+# Gráfico mezclando NumPy con Matplotlib 
+# Crear una onda simulada como ejemplo matemático
+t = np.arange(0.0, 2.0, 0.01)
+s = 1 + np.sin(2 * np.pi * t)
+plt.plot(t, s)
+plt.xlabel("Tiempo (s)")
+plt.ylabel("Intensidad simulada")
+plt.title("Gráfico con NumPy y Matplotlib (onda simulada)")
+plt.grid(True)
+plt.show()
+
+#Gráfico scatter
+# Relación entre Fuegos y Salvamentos
+plt.scatter(df["FUEGOS"], df["SALVAMENTOS Y RESCATES"], color="green", label="Distritos")
+plt.xlabel("Número de Fuegos")
+plt.ylabel("Salvamentos y Rescates")
+plt.title("Relación entre Fuegos y Salvamentos en Distritos (2025)")
+plt.legend()
+plt.grid(True)
+plt.show()
