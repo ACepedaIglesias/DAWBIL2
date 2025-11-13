@@ -1,46 +1,83 @@
-import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Cargar el CSV  ';'
-df = pd.read_csv("ActuacionesBomberos_2025.csv", encoding="utf-16", sep=";")
 
-# Gráfico de plot sencillo 
-# Mostrar número de fuegos en los primeros 4 distritos
-plt.plot(df["DISTRITO"].head(4), df["FUEGOS"].head(4), marker="o")
+# Leer el archivo CSV
+file_path = "ActuacionesBomberos_2025.csv"
+
+data = np.genfromtxt(file_path,delimiter=';',     skip_header=1,      dtype=str,encoding='utf-16')
+
+# Extraer columnas necesarias
+distritos = data[:, 2]
+fuegos = data[:, 4].astype(float)
+danos_construccion = data[:, 5].astype(float)
+salvamentos = data[:, 6].astype(float)
+incidentes = data[:, 8].astype(float)
+
+
+# Tomamos los primeros 10 distritos para no saturar las gráficas
+distritos = distritos[:10]
+fuegos = fuegos[:10]
+danos_construccion = danos_construccion[:10]
+salvamentos = salvamentos[:10]
+incidentes = incidentes[:10]
+
+
+# Gráfico Dos líneas
+plt.plot(distritos, fuegos, label="Fuegos", marker="o")
+plt.plot(distritos, salvamentos, label="Salvamentos y Rescates", marker="s")
 plt.xlabel("Distrito")
-plt.ylabel("Número de fuegos")
-plt.title("Fuegos por Distrito (primeros 4)")
-plt.grid(True)
-plt.show()
-
-
-# Gráfico de puntos individuales 
-# Mostrar número de Salvamentos por Distrito (4 primeros)
-plt.scatter(df["DISTRITO"].head(4), df["SALVAMENTOS Y RESCATES"].head(4), color="orange")
-plt.xlabel("Distrito")
-plt.ylabel("Salvamentos y Rescates")
-plt.title("Salvamentos y Rescates por Distrito (primeros 4)")
-plt.grid(True)
-plt.show()
-
-# Gráfico mezclando NumPy con Matplotlib 
-# Crear una onda simulada como ejemplo matemático
-t = np.arange(0.0, 2.0, 0.01)
-s = 1 + np.sin(2 * np.pi * t)
-plt.plot(t, s)
-plt.xlabel("Tiempo (s)")
-plt.ylabel("Intensidad simulada")
-plt.title("Gráfico con NumPy y Matplotlib (onda simulada)")
-plt.grid(True)
-plt.show()
-
-#Gráfico scatter
-# Relación entre Fuegos y Salvamentos
-plt.scatter(df["FUEGOS"], df["SALVAMENTOS Y RESCATES"], color="green", label="Distritos")
-plt.xlabel("Número de Fuegos")
-plt.ylabel("Salvamentos y Rescates")
-plt.title("Relación entre Fuegos y Salvamentos en Distritos (2025)")
+plt.ylabel("Número de actuaciones")
+plt.title("Comparación de Fuegos y Salvamentos por Distrito")
 plt.legend()
 plt.grid(True)
+plt.xticks(rotation=45)
 plt.show()
+plt.close()
+
+
+# Gráfico Puntos individuales
+plt.scatter(distritos, fuegos)
+plt.xlabel("Distrito")
+plt.ylabel("Número de fuegos")
+plt.title("Fuegos por Distrito (Gráfico de puntos)")
+plt.grid(True)
+plt.xticks(rotation=45)
+plt.show()
+
+
+
+#Gráfico de barras (bar)
+plt.bar(distritos, fuegos)
+plt.xlabel("Distrito")
+plt.ylabel("Número de fuegos")
+plt.title("Fuegos por distrito")
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.show()
+
+# Gráfico Scatter
+plt.plot(distritos, fuegos, 'r--',               # Rojo discontinua → fuegos
+         distritos, salvamentos, 'bs',           # Azul con marcadores cuadrados → salvamentos
+         distritos, incidentes, 'g^')            # Verde con triángulos → daños por agua
+plt.xlabel("Distrito")
+plt.ylabel("Número de actuaciones")
+plt.title("Actuaciones de Bomberos por Distrito")
+plt.legend(["Fuegos", "Salvamentos", "Incidentes"])
+plt.grid(True)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+plt.close()
+
+
+# Gráfica Histograma
+plt.hist(danos_construccion, color='skyblue', edgecolor='black')
+plt.xlabel("Número de daños en construcción")
+plt.ylabel("Frecuencia")
+plt.title("Distribución de daños en construcción (Histograma)")
+plt.grid(True)
+plt.show()
+
+
+
