@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 # Cargar el archivo CSV con el delimitador correcto (punto y coma)
-bombero = np.loadtxt('./ActuacionesBomberos_2025.csv', skiprows=1, delimiter=';', dtype=str)
+bombero = np.loadtxt('./ActuacionesBomberos_2025.csv', skiprows=1, delimiter=';', dtype=str, encoding='utf-8')
 columnas_numericas = bombero[:, 4:]
 columnas_numericas = np.where(columnas_numericas == '', '0', columnas_numericas).astype(float)
 #funcion de normalizacion
