@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 # Leer el archivo CSV
 file_path = "ActuacionesBomberos_2025.csv"
 
-data = np.genfromtxt(file_path,delimiter=';',     skip_header=1,      dtype=str,encoding='utf-16')
+data = np.genfromtxt(file_path,delimiter=';',  skip_header=1, dtype=str, encoding='utf-16')
 
 # Extraer columnas necesarias
 distritos = data[:, 2]
@@ -56,7 +56,7 @@ plt.xticks(rotation=45)
 plt.grid(True)
 plt.show()
 
-# Gráfico Scatter
+# Gráfico Tres Elementos
 plt.plot(distritos, fuegos, 'r--',               # Rojo discontinua → fuegos
          distritos, salvamentos, 'bs',           # Azul con marcadores cuadrados → salvamentos
          distritos, incidentes, 'g^')            # Verde con triángulos → daños por agua
@@ -69,6 +69,21 @@ plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
 plt.close()
+
+# Extraer las columnas que necesitamos
+fuegos_total = data[:, 4].astype(float)
+salvamentos_total = data[:, 6].astype(float)
+
+
+# Gráfico scatter
+plt.figure(figsize=(8, 5))
+plt.scatter(fuegos_total, salvamentos_total, c='green', label="Distritos")
+plt.xlabel("Número de Fuegos")
+plt.ylabel("Número de Salvamentos y Rescates")
+plt.title("Relación entre Fuegos y Salvamentos en Distritos (2025)")
+plt.legend()
+plt.grid(True)
+plt.show()
 
 
 # Gráfica Histograma
