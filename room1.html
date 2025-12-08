@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sala 1 - Escape</title>
+  <style>
+  body{ font-family: Arial, Helvetica, sans-serif; background:#f5f5f7; color:#222; }
+  .container{ max-width:720px; margin:40px auto; padding:20px; background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.06);} 
+  .controls{ margin-top:16px }
+  .controls button{ margin-right:8px; padding:8px 12px }
+  .log{ margin-top:12px; background:#fafafa; border:1px solid #eee; padding:8px; max-height:200px; overflow:auto; }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>Sala 1: El armario cerrado</h1>
+    <p id="output">Interactúa con los controles para abrir la sala.</p>
+
+    <div class="controls">
+      <button id="inspeccionar">Inspeccionar objeto</button>
+      <button id="clonar">Clonar objeto</button>
+      <button id="copiarSimbolos">Copiar símbolos</button>
+      <button id="puerta" disabled>Abrir puerta</button>
+    </div>
+
+    <div id="log" class="log"></div>
+  </main>
+
+  <script src="room1.js"></script>
+</body>
+</html>
