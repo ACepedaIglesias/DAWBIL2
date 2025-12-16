@@ -31,6 +31,37 @@ const result = document.getElementById('result');
 const valoresOrdenados = Array.from(piezas.entries()).sort((a, b) => a[0] - b[0]).map(e => e[1]);
 const palabraObjetivo = valoresOrdenados.reduce((a, b) => a + b, '');
 
+btn.addEventListener('click', () => {
+    const txt = (input.value || '').trim();
+    if (!txt) { result.style.color = 'red'; result.textContent = 'Introduce una secuencia de índices.'; return; }
+
+    // parseo: split, map, filter -> uso de varios métodos de Array
+    const indices = txt.split(',').map(s => Number(s.trim())).filter(n => !isNaN(n));
+
+    // Array.from para obtener las claves del Map
+    const claves = Array.from(piezas.keys());
+
+    // validación: longitud y que todos los índices sean válidos
+    const esValida = indices.length === claves.length && indices.every(i => claves.includes(i));
+    if (!esValida) { result.style.color = 'red'; result.textContent = 'Secuencia inválida; usa cada índice exactamente una vez.'; return; }
+
+    // map para convertir índices en fragmentos; reduce para ensamblar
+    const partes = indices.map(i => piezas.get(i));
+    const ensamblada = partes.reduce((a, b) => a + b, '');
+
+    // ejemplo de find: buscamos si alguna parte tiene la letra 'B'
+    const tieneB = partes.find(p => p.includes('B')) !== undefined;
+
+    if (ensamblada === palabraObjetivo) {
+        result.style.color = 'green';
+        result.textContent = '¡Correcto! Puedes abrir la puerta (window.location.href a la sala 3).';
+        window.location.href = 'room3.html';
+    } else {
+        result.style.color = 'red';
+        result.textContent = `No es correcto (${ensamblada}). Reintenta. (${tieneB ? 'Hay un fragmento con B' : ''})`;
+    }
+});
+
 hintBtn.addEventListener('click', () => {
     // Uso de destructuring y Set + Array.from para pistas
     const [p1, p2, p3] = valoresOrdenados; // destructuring
