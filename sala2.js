@@ -30,3 +30,18 @@ const result = document.getElementById('result');
 
 const valoresOrdenados = Array.from(piezas.entries()).sort((a, b) => a[0] - b[0]).map(e => e[1]);
 const palabraObjetivo = valoresOrdenados.reduce((a, b) => a + b, '');
+
+hintBtn.addEventListener('click', () => {
+    // Uso de destructuring y Set + Array.from para pistas
+    const [p1, p2, p3] = valoresOrdenados; // destructuring
+
+    // Set para letras únicas
+    const letrasUnicas = new Set(Array.from(palabraObjetivo));
+    const letras = Array.from(letrasUnicas).join(', ');
+
+    // spread para mostrar combinados (ejemplo)
+    const combinado = [...valoresOrdenados].join(' | ');
+
+    result.style.color = '#333';
+    result.textContent = `Pista: letras únicas = ${letras}. Ejemplo de fragmentos ordenados: ${p1}, ${p2}, ${p3}. (Fragmentos mostrados arriba)`;
+});
