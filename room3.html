@@ -1,14 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sala 3 - Escape</title>
+    <meta charset="UTF-8">
+    <title>Sala 3</title>
+    <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-  <main class="container">
-    <h1>Has entrado en la Sala 3</h1>
-    <p></p>
-  </main>
+
+    <div class="consola">
+
+        <h1>TERMINAL ROOT</h1>
+        <p id="info-sala">Inicializando protocolo de seguridad...</p>
+        
+        <div id="pantalla-juego">
+            <p>Introduce la contraseña de administrador:</p>
+            <input type="text" id="inputCodigo" placeholder="Password..." autocomplete="off">
+            <br>
+            <button id="btnValidar">EJECUTAR COMANDO</button>
+            <br>
+            <div id="mensaje"></div>
+            <button id="btnPista" class="pista-btn">Solicitar Pista al Servidor</button>
+        </div>
+    </div>
+
+    <script type="module" src="controladorSala3.js"></script>
+
 </body>
 </html>
