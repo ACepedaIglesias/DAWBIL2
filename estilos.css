@@ -55,3 +55,20 @@ button:hover
     font-size: 0.8em; 
     margin-top: 20px;
 }
+/* temporizador*/
+#timer 
+{
+    font-size: 2.5em;
+    color: red;
+    border: 1px solid red;
+    display: inline-block;
+    padding: 5px 15px;
+    margin-bottom: 20px;
+    background-color: #220000;
+    text-shadow: 0 0 5px red;
+}
+.alerta 
+{ 
+    animation: parpadeo 0.5s infinite; 
+}
+@keyframes parpadeo { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
