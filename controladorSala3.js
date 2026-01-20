@@ -6,10 +6,42 @@ const btnValidar = document.getElementById('btnValidar');
 const btnPista = document.getElementById('btnPista');
 const inputCodigo = document.getElementById('inputCodigo');
 const divMensaje = document.getElementById('mensaje');
+const divTimer = document.getElementById('timer');
+const infoSala = document.getElementById('info-sala');
 
 infoSala.innerText = `Sistema: ${miTerminal.nombre} | ESTADO: BLOQUEO INMINENTE`;
 
+// Definimos qué pasa cada segundo
+const alHacerTick = (textoTiempo, segundosRestantes) => {
+    divTimer.innerText = textoTiempo;
+    
+    // Si queda menos de 30 segundos, ponemos el texto en rojo parpadeante
+    if (segundosRestantes < 31) {
+        divTimer.classList.add("alerta");
+    }
+};
 
+// Definimos qué pasa cuando el tiempo se acaba
+const alTerminarTiempo = () => {
+    divTimer.innerText = "00:00";
+    divMensaje.innerText = "TIEMPO AGOTADO. SISTEMA BLOQUEADO PERMANENTEMENTE.";
+    divMensaje.style.color = "red";
+    inputCodigo.disabled = true;
+    btnValidar.disabled = true;
+    btnPista.disabled = true;
+    document.body.style.backgroundColor = "#300"; // Fondo rojo oscuro
+};
+
+// Iniciar el juego en el momento que se hace focus a la pestaña
+let juegoIniciado = false;
+
+function iniciarJuego() {
+    if (!juegoIniciado) {
+        juegoIniciado = true;
+        // El click hace empezar la cuenta atras
+        miTerminal.iniciarAutodestruccion(alHacerTick, alTerminarTiempo);
+    }
+}
 
 // Escuchamos el primer click o tecla para arrancar
 document.addEventListener('click', iniciarJuego);
@@ -24,7 +56,11 @@ btnValidar.addEventListener('click', () => {
     divMensaje.innerText = respuesta.mensaje;
 
     if (respuesta.exito) {
-
+        divMensaje.style.color = "#0f0";
+        divTimer.style.borderColor = "#0f0";
+        divTimer.style.color = "#0f0";
+        divTimer.classList.remove("alerta");
+        
         inputCodigo.disabled = true;
         btnValidar.disabled = true;
         btnPista.disabled = true;
