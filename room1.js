@@ -173,4 +173,49 @@ document.addEventListener('DOMContentLoaded', () => {
       coordDisplay.textContent = 'Fuera de rango';
     });
   }
+
+  // VALIDACIONES ESPECIALES DE TECLADO
+  // Escuchar los inputs de teclado
+  const inputCodigo = document.getElementById('input-codigo');
+  const msgTeclado = document.getElementById('msg-teclado');
+
+  if(inputCodigo) {
+    inputCodigo.addEventListener('keydown', (e) => {
+      
+      // Teclas Especiales (Con funcionalidad de tecla enter)
+      if (e.key === 'Enter') {
+        if(inputCodigo.value === 'ADMIN') {
+           appendLog('HACKEO: Código correcto introducido por teclado.');
+           // Forzamos la apertura con el evento personalizado aunque no hayamos clonado
+           const eventoHack = new CustomEvent('puertaDesbloqueada', { detail: { msg: 'Hackeo por teclado exitoso.' } });
+           document.dispatchEvent(eventoHack);
+        } else {
+           msgTeclado.textContent = 'Código incorrecto. Prueba con "ADMIN".';
+        }
+        return; // Salimos para no procesar más
+      }
+
+      // Solo caracteres Alfanuméricos
+      // Expresión Regular simple
+      // Permitimos también teclas de control como Backspace o Tab para que se utilizen en condiciones
+      const esControl = ['Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete'].includes(e.key);
+      const esAlfanumerico = /^[a-zA-Z0-9]$/.test(e.key);
+
+      if (!esAlfanumerico && !esControl) {
+        e.preventDefault(); // Evita que se escriba el caracter
+        msgTeclado.textContent = '¡Error! Solo se permiten letras y números.';
+        
+        // Borde rojo
+        inputCodigo.style.borderColor = 'red';
+        setTimeout(() => inputCodigo.style.borderColor = '#ccc', 500);
+      } else {
+        msgTeclado.textContent = ''; // Limpiar error si escribe bien
+      }
+
+      // Presionando shift enseña la "ayuda"
+      if (e.shiftKey) {
+        msgTeclado.textContent = 'Ayuda: El código secreto es ADMIN';
+      }
+    });
+  }
 });
