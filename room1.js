@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const salida = document.getElementById('salida');
   const log = document.getElementById('log');
 
-  // Referencias a botones
+  // Referencias a botones originales
   const botnoInspeccionar = document.getElementById('inspeccionar');
   const botonClonar = document.getElementById('clonar');
   const copiarSims = document.getElementById('copiarSimbolos');
@@ -50,10 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function appendLog(text){
     if (!log) return;
     const p = document.createElement('div');
-    p.textContent = text;
+    p.textContent = `> ${text}`; // Agregué un > para que parezca terminal
     log.appendChild(p);
+    log.scrollTop = log.scrollHeight; // Auto scroll al final
   }
-
+  
   if (botnoInspeccionar) {
     botnoInspeccionar.addEventListener('click', ()=>{
       if (salida) salida.innerHTML = `Objeto original: ${cabinet.owner}, locked=${cabinet.locked}`;
@@ -64,30 +65,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (botonClonar) {
     botonClonar.addEventListener('click', ()=>{
-      // Intentamos usar structuredClone si está disponible; si lanza un error, usamos deepClone como fallback.
       let usedMethod = 'deepClone';
       try {
         if (typeof structuredClone === 'function') {
-          cloned = structuredClone(cabinet);
+          // structuredClone fallará con métodos, así que el catch lo capturará
+          cloned = structuredClone(cabinet); 
           usedMethod = 'structuredClone';
         } else {
           cloned = deepClone(cabinet);
         }
       } catch (e) {
-        // structuredClone puede lanzar al clonar funciones; usar fallback seguro
         cloned = deepClone(cabinet);
-        usedMethod = 'deepClone';
-        appendLog('Aviso: structuredClone falló, se usó deepClone como fallback.');
+        usedMethod = 'deepClone (fallback)';
+        appendLog('Nota: structuredClone no clona métodos. Usando deepClone.');
       }
-      // Indicar método usado
       appendLog('Objeto clonado con ' + usedMethod + '.');
-      // Algunas modificaciones en el clone para mostrar diferencia
+      
       if (cloned && cloned.contents && Array.isArray(cloned.contents.notes)){
         cloned.locked = false;
         cloned.contents.notes.push('clonado');
-        appendLog('En el clon: locked=' + cloned.locked + ', notes=' + cloned.contents.notes.join(','));
+        appendLog('En el clon: locked=' + cloned.locked);
       }
-      // activar botón de copiar símbolos
       if (copiarSims) copiarSims.disabled = false;
     });
   }
@@ -95,44 +93,84 @@ document.addEventListener('DOMContentLoaded', () => {
   if (copiarSims) {
     copiarSims.addEventListener('click', ()=>{
       if (!cloned) { appendLog('Primero clona el objeto.'); return; }
-      // Copiar símbolos desde el original al clon
       const syms = Object.getOwnPropertySymbols(cabinet);
       for (const s of syms) {
         cloned[s] = cabinet[s];
       }
       symbolsCopied = true;
-      appendLog('Símbolos copiados al clon: ' + syms.map(s => s.toString()).join(', '));
-      // habilitar abrir puerta si condiciones cumplidas
+      appendLog('Símbolos copiados exitosamente.');
       intentaAbrir();
     });
   }
 
   function intentaAbrir(){
     if (!btnOpenDoor) return;
-    // condición: clon exists, clon openCheck true, y que symSecret esté presente
     try {
+      // Verificamos si podemos abrir
       if (cloned && typeof cloned.openCheck === 'function' && cloned.openCheck() && cloned[Symbol.for('secretCode')] === cabinet[Symbol.for('secretCode')]){
-        btnOpenDoor.disabled = false;
-        appendLog('Condiciones cumplidas: puedes abrir la puerta.');
+        
+        // REQUISITO: Evento Personalizado (CustomEvent)
+        // Disparamos un evento propio para avisar que la puerta está lista
+        const eventoDesbloqueo = new CustomEvent('puertaDesbloqueada', {
+          detail: { msg: '¡El sistema de seguridad ha sido vulnerado!' }
+        });
+        document.dispatchEvent(eventoDesbloqueo);
+
       } else {
-        appendLog('Aún no se cumplen las condiciones para abrir.');
+        appendLog('Aún no se cumplen las condiciones.');
       }
     } catch (e) {
-      appendLog('Error comprobando condiciones para abrir: ' + e.message);
+      appendLog('Error: ' + e.message);
     }
   }
 
+  // Listener para el evento personalizado creado arriba
+  document.addEventListener('puertaDesbloqueada', (e) => {
+    btnOpenDoor.disabled = false;
+    btnOpenDoor.style.backgroundColor = '#4CAF50'; // Verde estilo éxito
+    btnOpenDoor.style.color = 'white';
+    appendLog(`EVENTO CUSTOM: ${e.detail.msg}`);
+  });
+
   if (btnOpenDoor) {
     btnOpenDoor.addEventListener('click', ()=>{
-      // Al abrir, redirigir a room2.html
       window.location.href = 'room2.html';
     });
   }
 
-  // Inicialmente no permitir copiar símbolos hasta clonar (protegemos por si faltan botones)
   if (copiarSims) copiarSims.disabled = true;
   if (btnOpenDoor) btnOpenDoor.disabled = true;
+  appendLog('Pista: Clona -> Copia símbolos -> Introduce código manual si falla.');
 
-  // Pequeño tip para usuario
-  appendLog('Pista: clona el objeto y copia sus símbolos para que el clon tenga el código secreto.');
+  // EVENTOS DE RATÓN CON COORDENADAS Y TAMAÑO
+  // Lee la posicion del raton en el contenedor y hace X dependiendo de la posicion
+  const headerZone = document.getElementById('header-zone');
+  const coordDisplay = document.getElementById('coords');
+
+  if(headerZone) {
+    headerZone.addEventListener('mousemove', (e) => {
+      // Obtenemos coordenadas relativas al elemento (offsetX/Y)
+      const x = e.offsetX;
+      const y = e.offsetY;
+      
+      // Obtenemos ancho y alto total del elemento
+      const ancho = headerZone.offsetWidth;
+      const alto = headerZone.offsetHeight;
+
+      coordDisplay.textContent = `X: ${x} / Y: ${y}`;
+
+      // Si el ratón pasa por el 80% del ancho (zona derecha), cambia el color
+      if (x > ancho * 0.8) {
+        headerZone.style.borderColor = 'green';
+        coordDisplay.style.color = 'green';
+      } else {
+        headerZone.style.borderColor = '#ccc';
+        coordDisplay.style.color = '#555';
+      }
+    });
+
+    headerZone.addEventListener('mouseleave', () => {
+      coordDisplay.textContent = 'Fuera de rango';
+    });
+  }
 });
