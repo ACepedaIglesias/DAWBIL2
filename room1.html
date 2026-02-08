@@ -3,25 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sala 1 - Escape</title>
+  <title>Sala 1 - Armario Modificado</title>
   <style>
-  body{ font-family: Arial, Helvetica, sans-serif; background:#f5f5f7; color:#222; }
-  .container{ max-width:720px; margin:40px auto; padding:20px; background:#fff; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.06);} 
   .controls{ margin-top:16px }
-  .controls button{ margin-right:8px; padding:8px 12px }
-  .log{ margin-top:12px; background:#fafafa; border:1px solid #eee; padding:8px; max-height:200px; overflow:auto; }
+  .controls button{ margin-right:8px; padding:8px 12px; cursor: pointer; }
+  .log{ margin-top:12px; background:#fafafa; border:1px solid #eee; padding:8px; max-height:200px; overflow:auto; font-size: 0.9em; }
+  #header-zone { border: 2px dashed #ccc; padding: 10px; position: relative; cursor: crosshair; }
+  .danger-zone { padding: 20px; background: #ffcdd2; margin-top: 10px; text-align: center; border: 1px solid red; }
+  .btn-panico { padding: 10px 20px; background: red; color: white; border: none; font-weight: bold; cursor: pointer; }
+  .coord-display { font-size: 0.8em; color: #555; position: absolute; top: 5px; right: 5px; }
   </style>
 </head>
 <body>
   <main class="container">
-    <h1>Sala 1: El armario cerrado</h1>
+    <div id="header-zone">
+      <h1>Sala 1: El armario cerrado</h1>
+      <span id="coords" class="coord-display">X: 0, Y: 0</span>
+    </div>
+    
     <p id="output">Interactúa con los controles para abrir la sala.</p>
 
     <div class="controls">
       <button id="inspeccionar">Inspeccionar objeto</button>
       <button id="clonar">Clonar objeto</button>
       <button id="copiarSimbolos">Copiar símbolos</button>
-      <button id="puerta" disabled>Abrir puerta</button>
+      <button id="puerta" disabled>Abrir puerta (Salida)</button>
+    </div>
+
+    <div class="security-panel" id="panelSeguridad">
+      <h3>Panel de Seguridad (Hackeo manual)</h3>
+      
+
+      <div id="zonaPeligrosa" class="danger-zone">
+        ZONA DE ALARMA GENERAL (Click aquí resetea logs)
+        <br><br>
+        <button id="btnPanico" class="btn-panico">NO TOCAR (Detiene propagación)</button>
+      </div>
     </div>
 
     <div id="log" class="log"></div>
