@@ -218,4 +218,30 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Propagacion burbuja
+  const zonaPeligrosa = document.getElementById('zonaPeligrosa');
+  const btnPanico = document.getElementById('btnPanico');
+
+  // Evento padre (burbuja normal)
+  if(zonaPeligrosa) {
+    zonaPeligrosa.addEventListener('click', () => {
+      // Si el evento llega aquí, reinicia el log
+      log.innerHTML = '';
+      appendLog('ALARMA: Se ha tocado la zona peligrosa. Log reiniciado.');
+      zonaPeligrosa.style.backgroundColor = '#ffcdd2'; // Restaurar color
+    });
+  }
+
+  // Evento hijo (Detener propagación)
+  if(btnPanico) {
+    btnPanico.addEventListener('click', (e) => {
+      // ESTO CUMPLE EL REQUISITO DE DETENER PROPAGACIÓN
+      e.stopPropagation(); 
+      
+      appendLog('¡PÁNICO DETENIDO! Has pulsado el botón sin activar la alarma general.');
+      // Cambiamos el color del padre para demostrar que NO se disparó su evento
+      zonaPeligrosa.style.backgroundColor = '#a5d6a7'; // Verde
+    });
+  }
 });
