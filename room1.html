@@ -9,8 +9,10 @@
   .controls button{ margin-right:8px; padding:8px 12px; cursor: pointer; }
   .log{ margin-top:12px; background:#fafafa; border:1px solid #eee; padding:8px; max-height:200px; overflow:auto; font-size: 0.9em; }
   #header-zone { border: 2px dashed #ccc; padding: 10px; position: relative; cursor: crosshair; }
+  .security-panel { margin-top: 20px; padding: 15px; background: #e0f7fa; border: 1px solid #006064; border-radius: 5px; }
   .danger-zone { padding: 20px; background: #ffcdd2; margin-top: 10px; text-align: center; border: 1px solid red; }
   .btn-panico { padding: 10px 20px; background: red; color: white; border: none; font-weight: bold; cursor: pointer; }
+  #input-codigo { padding: 8px; width: 60%; margin-top: 10px; border: 2px solid #ccc; }
   .coord-display { font-size: 0.8em; color: #555; position: absolute; top: 5px; right: 5px; }
   </style>
 </head>
@@ -32,7 +34,10 @@
 
     <div class="security-panel" id="panelSeguridad">
       <h3>Panel de Seguridad (Hackeo manual)</h3>
+      <p>Introduce el código de emergencia (Solo letras y números). Presiona ENTER para validar.</p>
       
+      <input type="text" id="input-codigo" placeholder="Escribe código aquí..." autocomplete="off">
+      <div id="msg-teclado" style="color: blue; margin-top: 5px;"></div>
 
       <div id="zonaPeligrosa" class="danger-zone">
         ZONA DE ALARMA GENERAL (Click aquí resetea logs)
