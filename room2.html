@@ -1,56 +1,123 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="utf-8">
-    <title>Sala 2 — Escape</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Room: Protocolo de Emergencia</title>
     <style>
         body {
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 20px
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #1a1a1a;
+            color: #0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            text-align: center;
         }
 
-        .frag {
-            display: inline-block;
-            padding: 8px;
-            border: 1px solid #ccc;
-            margin: 6px;
-            border-radius: 4px
+        h1 { text-shadow: 0 0 10px #0f0; }
+
+        .container {
+            border: 2px solid #0f0;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            background: rgba(0, 50, 0, 0.8);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
         }
 
-        input[type=text] {
-            padding: 6px;
-            width: 220px
+        /* Estilos para Drag & Drop */
+        .drop-zone {
+            width: 100%;
+            height: 100px;
+            border: 2px dashed #555;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        .drop-zone.active {
+            border-color: #0f0;
+            background-color: rgba(0, 255, 0, 0.1);
         }
 
+        #data-file {
+            width: 100px;
+            padding: 10px;
+            background: #000;
+            border: 1px solid #0f0;
+            cursor: grab;
+            margin: 0 auto;
+        }
+
+        /* Secciones ocultas */
+        .hidden { display: none; }
+        
+        #resize-clue {
+            color: #ff0055;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        /* Formulario */
+        input[type="text"] {
+            background: #000;
+            border: 1px solid #0f0;
+            color: #0f0;
+            padding: 10px;
+            font-family: inherit;
+        }
+        
         button {
-            padding: 6px 8px;
-            margin-left: 6px
+            background: #0f0;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
         }
 
-        #result {
-            margin-top: 12px
-        }
+        button:hover { background: #fff; }
+
+        .error { color: red; }
+        .success { color: cyan; font-size: 1.2em; }
+
     </style>
 </head>
-
 <body>
-    <h1>Sala 2 — Organiza las pistas</h1>
-    <p>En la mesa hay fragmentos numerados. Introduce el orden correcto usando los índices separados por comas (p. ej.
-        <code>1,2,3</code>).</p>
 
-    <div id="fragments"></div>
+    <div class="container">
+        <h1> SISTEMA BLOQUEADO </h1>
+        
+        <div id="phase-1">
+            <p>1. Para iniciar, arrastra el archivo "KERNEL" al servidor de carga.</p>
+            <div id="data-file" draggable="true">KERNEL.sys</div>
+            <div id="drop-zone" class="drop-zone">Arrástralo aquí</div>
+        </div>
 
-    <p>
-        <label for="order">Orden:</label>
-        <input id="order" type="text" placeholder="ej: 2,1,3">
-        <button id="try">Probar</button>
-        <button id="hint">Pista</button>
-    </p>
+        <div id="phase-2" class="hidden">
+            <p>2. El sistema necesita compresión. <br>
+               <em>Reduce el ancho de tu ventana a menos de 700px para revelar el código.</em>
+            </p>
+            <div id="resize-clue" class="hidden">
+                ¡BIEN! El código secreto es: <strong>DELTA-99</strong>
+                <br><small>(No intentes usar clic derecho para copiar, está protegido)</small>
+            </div>
+        </div>
 
-    <p id="result"></p>
-
-    <script src="sala2.js"></script>
+        <div id="phase-3" class="hidden">
+            <p>3. Introduce el código de autorización:</p>
+            <form id="access-form">
+                <input type="text" id="code-input" placeholder="Ej: ALFA-00" autocomplete="off">
+                <button type="submit">DESBLOQUEAR</button>
+            </form>
+            <p id="form-message"></p>
+        </div>
+    </div>
+    <script src="room2.js"></script>
 </body>
-
 </html>
