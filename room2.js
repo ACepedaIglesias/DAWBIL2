@@ -27,6 +27,7 @@ dropZone.addEventListener('dragleave', () => {
     dropZone.classList.remove('active');
 });
 
+// Evento: Al soltar
 dropZone.addEventListener('drop', (e) => {
     e.preventDefault();
     const data = e.dataTransfer.getData('text/plain');
@@ -41,3 +42,15 @@ dropZone.addEventListener('drop', (e) => {
     }
 });
 
+function checkWindowSize() {
+    if (!phase1Complete) return;
+
+    if (window.innerWidth < 700) {
+        resizeClue.classList.remove('hidden');
+        phase3.classList.remove('hidden');
+    } else {
+        resizeClue.classList.add('hidden');
+    }
+}
+
+window.addEventListener('resize', checkWindowSize);
