@@ -27,3 +27,17 @@ dropZone.addEventListener('dragleave', () => {
     dropZone.classList.remove('active');
 });
 
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const data = e.dataTransfer.getData('text/plain');
+    
+    if (data === 'kernel-security') {
+        dropZone.innerHTML = "CARGA COMPLETA";
+        dropZone.style.borderColor = "cyan";
+        phase1.classList.add('hidden');
+        phase2.classList.remove('hidden');
+        phase1Complete = true; // Habilitar la siguiente fase
+        checkWindowSize(); // Comprobar si ya estaba pequeña
+    }
+});
+
