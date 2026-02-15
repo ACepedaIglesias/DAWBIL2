@@ -54,3 +54,25 @@ function checkWindowSize() {
 }
 
 window.addEventListener('resize', checkWindowSize);
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    alert("ACCESO DENEGADO: El portapapeles está desactivado por seguridad.");
+});
+accessForm.addEventListener('submit', (e) => {
+    e.preventDefault(); // Evita que la página se recargue
+
+    const code = codeInput.value.trim().toUpperCase();
+    const regex = /^[A-Z]+-\d{2}$/;
+
+    if (!regex.test(code)) {
+        formMessage.textContent = "Formato inválido. Debe ser PALABRA-NUMERO (ej: DELTA-99)";
+        formMessage.className = "error";
+    } else if (code === "DELTA-99") {
+        formMessage.className = "success";
+        accessForm.style.display = "none";
+        window.location.href = 'room3.html';
+    } else {
+        formMessage.textContent = "Código incorrecto.";
+        formMessage.className = "error";
+    }
+});
