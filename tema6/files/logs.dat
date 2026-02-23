@@ -1,0 +1,34 @@
+[INFO] Inicio del sistema
+[INFO] Cargando módulos principales
+[WARNING] Configuración regional no especificada, usando valores por defecto
+[INFO] Servicio de autenticación iniciado
+[ERROR] Usuario no encontrado: juanperez
+[INFO] Reintentando autenticación
+[INFO] Autenticación exitosa para usuario: admin
+[INFO] Conexión establecida con la base de datos
+[WARNING] Latencia elevada en la conexión (210 ms)
+[INFO] Sincronizando datos iniciales
+[INFO] Módulo de reportes cargado correctamente
+[ERROR] Archivo de configuración 'reportes.cfg' no encontrado
+[INFO] Generando archivo de configuración por defecto
+[INFO] Archivo de configuración creado
+[INFO] Iniciando monitor de procesos
+[WARNING] Proceso 'backup' tardando más de lo esperado
+[INFO] Proceso 'backup' completado
+[INFO] Iniciando servidor web interno
+[ERROR] Puerto 8080 en uso
+[INFO] Reintentando en puerto 8081
+[INFO] Servidor web iniciado en puerto 8081
+[INFO] Recibiendo solicitud GET /status
+[INFO] Respuesta enviada correctamente
+[WARNING] Uso de CPU al 85%
+[INFO] Ejecutando limpieza de caché
+[INFO] Caché limpiada
+[ERROR] Fallo en módulo de estadísticas: división por cero
+[INFO] Reiniciando módulo de estadísticas
+[INFO] Módulo de estadísticas operativo
+[INFO] Guardando estado del sistema
+[INFO] Sistema en espera
+[WARNING] Memoria disponible baja (12%)
+[INFO] Finalizando servicios
+[INFO] Sistema detenido correctamente
