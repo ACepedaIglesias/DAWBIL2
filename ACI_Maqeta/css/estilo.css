@@ -1,0 +1,256 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    background-image: url("Dream_Land_KSA.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; 
+    background-position: center;
+}
+
+.navbar {
+    background: linear-gradient(0deg, #000000 0%, #2e2e2e 80%);
+    box-shadow: 0 22px 30px 25px rgb(0, 0, 0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #dadada;
+}
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 8px;
+    margin-right: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: #d3d3d3;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: bolder;
+}
+
+.nav-item a:hover {
+    color: #d6ff75;
+}
+
+.dropdown-icon {
+    font-size: 0.7rem;
+}
+
+.search-icon {
+    color: #667eea;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.search-icon:hover {
+    transform: scale(1.25);
+}
+
+/* Espaciado para el contenido debajo del navbar */
+.content {
+    margin-top: 100px;
+    padding: 2rem;
+    text-align: center;
+    text-shadow: 5px 5px 5px #000000;
+    font-weight: bolder;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-menu {
+        gap: 1rem;
+        font-size: 0.9rem;
+    }
+
+    .navbar-container {
+        padding: 1rem;
+    }
+}
+
+.hmove {
+    display: flex;
+    gap: 50px;
+}
+
+.hitem {
+    width: 100%;
+    flex-shrink: 0;
+    color: whitesmoke;
+    font-size: 1.5em;
+    font-weight: bolder;
+    padding: 10px;
+}
+
+.hwrap {
+    overflow: hidden;
+    justify-content: space-around;
+    border-radius: 10px;
+    background-color: black;
+    padding: 3px;
+    max-width: 80%;
+    margin: 0 auto;
+    background: linear-gradient(0deg, #000000 0%, #2e2e2e 80%);
+    box-shadow: 0 10px 10px 5px rgb(19, 19, 19);
+}
+
+/* (B) MOVE ITEMS FROM RIGHT TO LEFT */
+/* first item = 0, fourth item = -300% */
+@keyframes tickerh {
+    0% {
+        transform: translatex(100%);
+    }
+
+    100% {
+        transform: translatex(-400%);
+    }
+}
+
+.hmove {
+    animation: tickerh linear 40s infinite;
+}
+
+.hmove:hover {
+    animation-play-state: paused;
+}
+.float-wrap {
+    position: relative;
+    top: 90px; /* ajustar para mover arriba/abajo sin afectar otros elementos */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    width: 80%;
+    max-width: 1200px;
+    z-index: 900; /* encima del contenido pero debajo del navbar (navbar z-index:1000) */
+    pointer-events: auto;
+    justify-content: center;
+}
+.main-stage {
+    display: flex;
+    justify-content: space-between; /* Distribuye: Izq - Centro - Der */
+    align-items: center; /* Alineación vertical */
+    width: 100%;
+    min-height: 100vh; /* Asegura que ocupe la pantalla verticalmente */
+    padding: 2rem;
+    box-sizing: border-box;
+    gap: 2rem; /* Espacio de seguridad entre paneles laterales y centro */
+    transform: translateY(-80px);
+}
+
+.side-box {
+    width: 300px; /* Ancho fijo */
+    height: 500px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    border-radius: 10px;
+    backdrop-filter: blur(6px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    padding: 1rem;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    transform: translateY(50px);
+}
+.center-content img{
+    border-radius: 10px;
+}
+.float-box {
+    min-width: 220px;
+    max-width: 300px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    text-align: center;
+    
+    flex: 1 1 220px;
+}
+.float-box img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+@media (max-width: 1200px) {
+    .main-stage {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .side-box {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        order: 2;
+    }
+
+    .center-content {
+        order: 1;
+        width: 100%;
+    }
+}
+footer 
+{
+    background: linear-gradient(180deg, #000000 0%, #2e2e2e 80%);
+    box-shadow: 0 -22px -30px -25px rgb(0, 0, 0);
+    text-align: center;
+    padding: 5px;
+    color: white;
+    justify-self: end;
+}
